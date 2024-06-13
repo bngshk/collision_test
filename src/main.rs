@@ -150,11 +150,11 @@ fn sensor_detection(
     mut collision_event_reader2: EventReader<CollisionEnded>,
     player_q: Query<&Player>,
     mut lights_q: Query <&mut PointLight>,
-    sensor_area: Query<(&SensorArea, &Children)>,
+    sensor_area_q: Query<(&SensorArea, &Children)>,
 ) {
     for CollisionStarted(entity1, entity2) in collision_event_reader.read() {
         for (entity1, entity2) in [(entity1, entity2), (entity2, entity1)] {
-            if let (Ok(_player), Ok((_sensor_area,children))) = (player_q.get(*entity1), sensor_area.get(*entity2)) {
+            if let (Ok(_player), Ok((_sensor_area,children))) = (player_q.get(*entity1), sensor_area_q.get(*entity2)) {
                 println!(">ENTERED sensor id: {entity2:?} (player id: {entity1:?})");
 
                 for child in children.iter() {
@@ -169,7 +169,7 @@ fn sensor_detection(
 
     for CollisionEnded(entity11, entity22) in collision_event_reader2.read() {
         for (entity11, entity22) in [(entity11, entity22), (entity22, entity11)] {
-            if let (Ok(_player2), Ok((_sensor_area2, children2))) = (player_q.get(*entity11), sensor_area.get(*entity22)) {
+            if let (Ok(_player2), Ok((_sensor_area2, children2))) = (player_q.get(*entity11), sensor_area_q.get(*entity22)) {
                 println!("<EXITED sensor id: {entity22:?} (player id: {entity11:?})");
 
                 for child2 in children2.iter() {
