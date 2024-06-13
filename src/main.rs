@@ -89,7 +89,7 @@ fn spawn_sensors(
             ..default() }, 
         ..default() 
     };
-    
+
     let sensor_area2 = SpatialBundle { 
         transform: Transform { 
             translation: Vec3::new(11.,4.5,0.), 
@@ -159,7 +159,7 @@ fn sensor_detection(
 
                 for child in children.iter() {
                     let Ok(mut light) = lights_q.get_mut(*child) else {
-                        return;
+                        continue
                     };
                     light.color = Color::GREEN;
                 }
@@ -174,7 +174,7 @@ fn sensor_detection(
 
                 for child2 in children2.iter() {
                     let Ok(mut light2) = lights_q.get_mut(*child2) else {
-                        return;
+                        continue
                     };
                     light2.color = Color::RED;
                 }
